@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BuckSoft.Controls.FtpFileDialog")]
+[assembly: AssemblyTitle("Tonur.FtpFileDialog")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Rutherford Equipment, Inc.")]
-[assembly: AssemblyProduct("BuckSoft.Controls.FtpFileDialog")]
-[assembly: AssemblyCopyright("Copyright © Rutherford Equipment, Inc. 2008")]
+[assembly: AssemblyCompany("Christoffer Kragh Pedersen")]
+[assembly: AssemblyProduct("Tonur.FtpFileDialog")]
+[assembly: AssemblyCopyright("Copyright © Christoffer Kragh Pedersen 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
