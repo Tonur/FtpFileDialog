@@ -30,12 +30,24 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: NuGetCommand@2
+  displayName: 'NuGet restore'
   inputs:
     restoreSolution: '$(solution)'
+    
+- task: NuGetCommand@2
+  displayName: 'NuGet pack'
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    versioningScheme: 'off'
+
+- task: NuGetAuthenticate@0
+  displayName: 'NuGet Authenticate'
 
 - task: NuGetCommand@2
+  displayName: 'NuGet push'
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'internal'
-    publishVstsFeed: '8378a227-93cc-4d84-bafd-68db26eb68a4'
+    publishVstsFeed: '9e1e046c-2955-4416-8d97-7356e51a4360/4e59c46e-9b99-428e-885a-80aad408b64d'
