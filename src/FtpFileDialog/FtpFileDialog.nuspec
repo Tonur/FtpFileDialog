@@ -13,6 +13,7 @@
         <dependency>
            <id>NETStandard.Library</id>
            <version>1.6.0" </version>
+        </dependency>
       </group>
     </dependencies>
     <!-- ... -->
