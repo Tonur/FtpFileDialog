@@ -39,6 +39,8 @@ namespace FtpFileDialog
       get => PassiveCheckbox.Checked;
       set => PassiveCheckbox.Checked = value;
     }
+
+    public ConnectionDetails Connection { get; set; }
     #endregion
 
     #region Constructors
@@ -74,7 +76,7 @@ namespace FtpFileDialog
       UsernameLabel.Text = Properties.Resources.ResourceManager.GetString("DialogLogin_UsernameLabel", CultureInfo.CurrentUICulture);
       PasswordLabel.Text = Properties.Resources.ResourceManager.GetString("DialogLogin_PasswordLabel", CultureInfo.CurrentUICulture);
       PassiveCheckbox.Text = Properties.Resources.ResourceManager.GetString("DialogLogin_PassiveCheckBox", CultureInfo.CurrentUICulture);
-      CancelButton.Text = Properties.Resources.ResourceManager.GetString("DialogLogin_CancelButton", CultureInfo.CurrentUICulture);
+      CancelButton.Text = Properties.Resources.ResourceManager.GetString("Global_CancelButton", CultureInfo.CurrentUICulture);
       ConnectButton.Text = Properties.Resources.ResourceManager.GetString("DialogLogin_ConnectButton", CultureInfo.CurrentUICulture);
     }
     #endregion
@@ -111,6 +113,21 @@ namespace FtpFileDialog
         return false;
       }
       return true;
+    }
+
+    private void ConnectButton_Click(object sender, EventArgs e)
+    {
+      Match match1 = Regex.Match(Server, "ftp\\:\\/\\/([a-zA-Z1-9]*)[ ]?\\:[ ]?([a-zA-Z1-9]*)[ ]?\\@[ ]?([a-zA-Z1-9\\.]*)[\\/]?([a-zA-Z1-9]*)?");
+      Match match2 = Regex.Match(Server, "[ ]?([a-zA-Z1-9\\.]*)[\\/]?([a-zA-Z1-9/]*)?");
+      Connection = new ConnectionDetails
+      {
+        FtpCred = match1.Success
+          ? new NetworkCredential(match1.Groups[1].Value, match1.Groups[2].Value)
+          : new NetworkCredential(Username, Password),
+        Host = match1.Success ? match1.Groups[3].Value : match2.Groups[1].Value,
+        Passive = PassiveMode,
+        FtpPort = Port
+      };
     }
   }
 }

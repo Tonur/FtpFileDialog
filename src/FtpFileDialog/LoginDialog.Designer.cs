@@ -127,6 +127,7 @@ namespace FtpFileDialog
       this.ConnectButton.TabIndex = 5;
       this.ConnectButton.Text = "Connect";
       this.ConnectButton.UseVisualStyleBackColor = true;
+      this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
       // 
       // CancelButton
       // 
@@ -173,7 +174,7 @@ namespace FtpFileDialog
       this.StartPathTextBox.TabIndex = 10;
       this.StartPathTextBox.TextChanged += new System.EventHandler(this.input_TextChanged);
       // 
-      // FtpFileDialogLogin
+      // LoginDialog
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -193,7 +194,7 @@ namespace FtpFileDialog
       this.Controls.Add(this.UsernameLabel);
       this.Controls.Add(this.ServerLabel);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-      this.Name = "FtpFileDialogLogin";
+      this.Name = "LoginDialog";
       this.ShowInTaskbar = false;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Load += new System.EventHandler(this.FtpFileDialogLogin_Load);
