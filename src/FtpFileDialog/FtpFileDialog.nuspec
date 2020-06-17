@@ -10,7 +10,9 @@
     <license type="expression">MIT</license>
     <dependencies>
       <group targetFramework="v4.0.0">
-        <dependency id="NETStandard.Library" version="1.6.0" />
+        <dependency>
+           <id>NETStandard.Library</id>
+           <version>1.6.0" </version>
       </group>
     </dependencies>
     <!-- ... -->
