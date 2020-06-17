@@ -9,8 +9,10 @@
     <!-- Optional elements -->
     <license type="expression">MIT</license>
     <dependencies>
-      <id>.NET Framework</id>
-      <version>net40</version>
+      <dependency>
+        <id>.NET Framework</id>
+        <version>net40</version>
+      </dependency>
     </dependencies>
     <!-- ... -->
   </metadata>
