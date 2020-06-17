@@ -29,7 +29,7 @@ namespace FtpFileDialog
     private void InitializeComponent()
     {
       this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-      this.updirectorybutton = new System.Windows.Forms.ToolStripButton();
+      this.UpDirectoryButton = new System.Windows.Forms.ToolStripButton();
       this.LoadNewHostButton = new System.Windows.Forms.ToolStripButton();
       this.panel1 = new System.Windows.Forms.Panel();
       this.CancelButton = new System.Windows.Forms.Button();
@@ -49,7 +49,7 @@ namespace FtpFileDialog
       // 
       this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
       this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.updirectorybutton,
+            this.UpDirectoryButton,
             this.LoadNewHostButton});
       this.toolStrip1.Location = new System.Drawing.Point(0, 0);
       this.toolStrip1.Name = "toolStrip1";
@@ -57,23 +57,23 @@ namespace FtpFileDialog
       this.toolStrip1.TabIndex = 0;
       this.toolStrip1.Text = "toolStrip1";
       // 
-      // updirectorybutton
+      // UpDirectoryButton
       // 
-      this.updirectorybutton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.updirectorybutton.Enabled = false;
-      this.updirectorybutton.Image = global::FtpFileDialog.Properties.Resources.GoToParentFolderHS;
-      this.updirectorybutton.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.updirectorybutton.Name = "updirectorybutton";
-      this.updirectorybutton.Size = new System.Drawing.Size(23, 22);
-      this.updirectorybutton.Text = "toolStripButton1";
-      this.updirectorybutton.ToolTipText = "Tilbage";
-      this.updirectorybutton.Click += new System.EventHandler(this.UpDirectoryButton_Click);
+      this.UpDirectoryButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.UpDirectoryButton.Enabled = false;
+      this.UpDirectoryButton.Image = global::FtpFileDialog.Properties.Resources.ParentFolder_16x;
+      this.UpDirectoryButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.UpDirectoryButton.Name = "UpDirectoryButton";
+      this.UpDirectoryButton.Size = new System.Drawing.Size(23, 22);
+      this.UpDirectoryButton.Text = "toolStripButton1";
+      this.UpDirectoryButton.ToolTipText = "Go back";
+      this.UpDirectoryButton.Click += new System.EventHandler(this.UpDirectoryButton_Click);
       // 
       // LoadNewHostButton
       // 
       this.LoadNewHostButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
       this.LoadNewHostButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.LoadNewHostButton.Image = global::FtpFileDialog.Properties.Resources.openHS;
+      this.LoadNewHostButton.Image = global::FtpFileDialog.Properties.Resources.OpenFolder_16x;
       this.LoadNewHostButton.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.LoadNewHostButton.Name = "LoadNewHostButton";
       this.LoadNewHostButton.Size = new System.Drawing.Size(23, 22);
@@ -164,7 +164,7 @@ namespace FtpFileDialog
       this.FileList.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FileList_KeyPress);
       this.FileList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FileList_MouseDoubleClick);
       // 
-      // FtpFileDialog
+      // BrowseDialog
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -174,7 +174,7 @@ namespace FtpFileDialog
       this.Controls.Add(this.panel1);
       this.Controls.Add(this.toolStrip1);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-      this.Name = "FtpFileDialog";
+      this.Name = "BrowseDialog";
       this.ShowIcon = false;
       this.ShowInTaskbar = false;
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -201,6 +201,6 @@ namespace FtpFileDialog
     private System.Windows.Forms.TreeView DirectoryTree;
     private System.Windows.Forms.ListView FileList;
     private System.Windows.Forms.ToolStripButton LoadNewHostButton;
-    private System.Windows.Forms.ToolStripButton updirectorybutton;
+    private System.Windows.Forms.ToolStripButton UpDirectoryButton;
   }
 }

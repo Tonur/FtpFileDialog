@@ -70,12 +70,20 @@ namespace FtpFileDialog.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized string similar to Load new host.
         /// </summary>
-        internal static System.Drawing.Bitmap CLSDFOLD {
+        internal static string BrowseDialog_LoadNewHostButton {
             get {
-                object obj = ResourceManager.GetObject("CLSDFOLD", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("BrowseDialog_LoadNewHostButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go back.
+        /// </summary>
+        internal static string BrowseDialog_UpDirectoryButton {
+            get {
+                return ResourceManager.GetString("BrowseDialog_UpDirectoryButton", resourceCulture);
             }
         }
         
@@ -145,9 +153,29 @@ namespace FtpFileDialog.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DOC {
+        internal static System.Drawing.Bitmap Document_16x {
             get {
-                object obj = ResourceManager.GetObject("DOC", resourceCulture);
+                object obj = ResourceManager.GetObject("Document_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FolderClosed_16x {
+            get {
+                object obj = ResourceManager.GetObject("FolderClosed_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FolderOpened_16x {
+            get {
+                object obj = ResourceManager.GetObject("FolderOpened_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -164,9 +192,9 @@ namespace FtpFileDialog.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap GoToParentFolderHS {
+        internal static System.Drawing.Bitmap OpenFolder_16x {
             get {
-                object obj = ResourceManager.GetObject("GoToParentFolderHS", resourceCulture);
+                object obj = ResourceManager.GetObject("OpenFolder_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -174,29 +202,9 @@ namespace FtpFileDialog.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Input {
+        internal static System.Drawing.Bitmap ParentFolder_16x {
             get {
-                object obj = ResourceManager.GetObject("Input", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap OPENFOLD {
-            get {
-                object obj = ResourceManager.GetObject("OPENFOLD", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap openHS {
-            get {
-                object obj = ResourceManager.GetObject("openHS", resourceCulture);
+                object obj = ResourceManager.GetObject("ParentFolder_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

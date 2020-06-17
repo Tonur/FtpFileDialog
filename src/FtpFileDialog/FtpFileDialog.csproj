@@ -90,28 +90,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CLSDFOLD.BMP" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\OPENFOLD.BMP" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CLSDFOLD1.BMP" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\OPENFOLD1.BMP" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DOC.BMP" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Input.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GoToParentFolderHS.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\openHS.png" />
+    <Content Include="Resources\Document_16x.png" />
+    <Content Include="Resources\FolderClosed_16x.png" />
+    <Content Include="Resources\FolderOpened_16x.png" />
+    <Content Include="Resources\ParentFolder_16x.png" />
+    <Content Include="Resources\OpenFolder_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

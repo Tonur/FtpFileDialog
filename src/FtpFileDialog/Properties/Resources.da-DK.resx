@@ -120,6 +120,12 @@
   <data name="BrowseDialog_ChooseButton" xml:space="preserve">
     <value>Vælg</value>
   </data>
+  <data name="BrowseDialog_LoadNewHostButton" xml:space="preserve">
+    <value>Indlæs ny adresse</value>
+  </data>
+  <data name="BrowseDialog_UpDirectoryButton" xml:space="preserve">
+    <value>Tilbage</value>
+  </data>
   <data name="DialogLogin_ConnectButton" xml:space="preserve">
     <value>Forbind</value>
   </data>

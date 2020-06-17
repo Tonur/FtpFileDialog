@@ -103,9 +103,9 @@ namespace FtpFileDialog
       this.PassiveCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
       this.PassiveCheckbox.Location = new System.Drawing.Point(83, 168);
       this.PassiveCheckbox.Name = "PassiveCheckbox";
-      this.PassiveCheckbox.Size = new System.Drawing.Size(114, 17);
+      this.PassiveCheckbox.Size = new System.Drawing.Size(120, 17);
       this.PassiveCheckbox.TabIndex = 4;
-      this.PassiveCheckbox.Text = "Passiv Forbindelse";
+      this.PassiveCheckbox.Text = "Passive Connection";
       this.PassiveCheckbox.UseVisualStyleBackColor = true;
       // 
       // PortLabel

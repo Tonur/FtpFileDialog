@@ -33,7 +33,7 @@ namespace FtpFileDialog
       this.CancelButton = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
-      // label1
+      // LoadingLabel
       // 
       this.LoadingLabel.AutoSize = true;
       this.LoadingLabel.Location = new System.Drawing.Point(12, 9);
@@ -58,7 +58,7 @@ namespace FtpFileDialog
       this.CancelButton.Name = "CancelButton";
       this.CancelButton.Size = new System.Drawing.Size(75, 23);
       this.CancelButton.TabIndex = 2;
-      this.CancelButton.Text = "Annuller";
+      this.CancelButton.Text = "Cancel";
       this.CancelButton.UseVisualStyleBackColor = true;
       this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
       // 

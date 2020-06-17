@@ -81,14 +81,14 @@ namespace FtpFileDialog
       };
 
       var directoryImages = new ImageList();
-      directoryImages.Images.Add(Properties.Resources.CLSDFOLD);
-      directoryImages.Images.Add(Properties.Resources.OPENFOLD);
+      directoryImages.Images.Add(Properties.Resources.FolderClosed_16x);
+      directoryImages.Images.Add(Properties.Resources.FolderOpened_16x);
       DirectoryTree.ImageList = directoryImages;
       DirectoryTree.ImageIndex = 0;
       DirectoryTree.SelectedImageIndex = 0;
       var fileImages = new ImageList();
-      fileImages.Images.Add(Properties.Resources.CLSDFOLD);
-      fileImages.Images.Add(Properties.Resources.DOC);
+      fileImages.Images.Add(Properties.Resources.FolderClosed_16x);
+      fileImages.Images.Add(Properties.Resources.Document_16x);
       FileList.SmallImageList = fileImages;
       _promptForServer = promptForServer ?? true;
 
@@ -99,6 +99,8 @@ namespace FtpFileDialog
     {
       CancelButton.Text = Properties.Resources.ResourceManager.GetString("Global_CancelButton", CultureInfo.CurrentUICulture);
       ChooseButton.Text = Properties.Resources.ResourceManager.GetString("BrowseDialog_ChooseButton", CultureInfo.CurrentUICulture);
+      UpDirectoryButton.ToolTipText = Properties.Resources.ResourceManager.GetString("BrowseDialog_UpDirectoryButton", CultureInfo.CurrentUICulture);
+      LoadNewHostButton.ToolTipText = Properties.Resources.ResourceManager.GetString("BrowseDialog_LoadNewHostButton", CultureInfo.CurrentUICulture);
     }
 
     public BrowseDialog(string hostUrl, string path, int port, string username, string password, bool passiveMode, 
@@ -367,7 +369,7 @@ namespace FtpFileDialog
           //FileList.Items.Add(f, 1);
         }
       }
-      updirectorybutton.Enabled = DirectoryTree.SelectedNode != DirectoryTree.Nodes[0];
+      UpDirectoryButton.Enabled = DirectoryTree.SelectedNode != DirectoryTree.Nodes[0];
       SetSubnodeBackColor(DirectoryTree.Nodes[0] as FtpTreeNode, DirectoryTree.BackColor);
       DirectoryTree.SelectedNode.BackColor = Color.LightGray;
     }
@@ -424,7 +426,7 @@ namespace FtpFileDialog
 
     private void FileList_KeyPress(object sender, KeyPressEventArgs e)
     {
-      if (e.KeyChar == '\b') updirectorybutton.PerformClick();
+      if (e.KeyChar == '\b') UpDirectoryButton.PerformClick();
     }
     #endregion
   }
