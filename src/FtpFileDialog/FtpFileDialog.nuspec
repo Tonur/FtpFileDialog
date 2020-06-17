@@ -2,19 +2,19 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <!-- Required elements-->
-    <id>FtpFileDialog</id>
-    <description>An alternative to WinForms OpenFileDialog, that enables a user to browse an FTP URI to choose a file.</description>
-    <authors>Christoffer Kragh Pedersen</authors>
-
-    <!-- Optional elements -->
-    <license type="expression">MIT</license>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <description>$description$</description>
+    <copyright>$copyright$</copyright>
+    
     <dependencies>
-      <group targetFramework="v4.0.0">
-        <dependency>
-           <id>NETStandard.Library</id>
-           <version>1.6.0</version>
-        </dependency>
-      </group>
+      <dependency id="Newtonsoft.Json" version="11.0.2" />
+      <dependency id="RestSharp" version="106.3.1" />
+      <dependency id="Selenium.Support" version="3.14.0" />
+      <dependency id="Selenium.WebDriver" version="3.14.0" />
     </dependencies>
     <!-- ... -->
   </metadata>
