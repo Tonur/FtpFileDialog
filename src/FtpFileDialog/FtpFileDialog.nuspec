@@ -9,10 +9,9 @@
     <!-- Optional elements -->
     <license type="expression">MIT</license>
     <dependencies>
-      <dependency>
-        <id>.NET Framework</id>
-        <version>net40</version>
-      </dependency>
+      <group targetFramework="v4.0.0">
+        <dependency id="NETStandard.Library" version="1.6.0" />
+      </group>
     </dependencies>
     <!-- ... -->
   </metadata>
