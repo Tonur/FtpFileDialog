@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Tonur.FtpFileDialog")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("An alternative to WinForms OpenFileDialog, that enables a user to browse an FTP URI to choose a file.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Christoffer Kragh Pedersen")]
 [assembly: AssemblyProduct("Tonur.FtpFileDialog")]

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <!-- Required elements-->
+    <id>FtpFileDialog</id>
+    <description>An alternative to WinForms OpenFileDialog, that enables a user to browse an FTP URI to choose a file.</description>
+    <authors>Christoffer Kragh Pedersen</authors>
+
+    <!-- Optional elements -->
+    <license type="expression">MIT</license>
+    <dependencies>
+      <id>.NET Framework</id>
+      <version>net40</version>
+    </dependencies>
+    <!-- ... -->
+  </metadata>
+  <!-- Optional 'files' node -->
+</package>
