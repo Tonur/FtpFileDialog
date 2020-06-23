@@ -38,7 +38,7 @@ steps:
   displayName: 'NuGet pack'
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj'
+    packagesToPack: '**/FtpFileDialog.csproj'
     versioningScheme: 'off'
 
 - task: NuGetAuthenticate@0
