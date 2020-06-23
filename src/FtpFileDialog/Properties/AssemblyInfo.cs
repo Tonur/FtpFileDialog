@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Christoffer Kragh Pedersen")]
 [assembly: AssemblyProduct("Tonur.FtpFileDialog")]
-[assembly: AssemblyCopyright("Copyright © Christoffer Kragh Pedersen 2020")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

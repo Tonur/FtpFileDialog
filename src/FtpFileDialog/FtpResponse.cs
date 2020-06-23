@@ -27,7 +27,7 @@ namespace FtpFileDialog
       foreach (var line in stringLines)
       {
         var lineTokens = Regex.Match(line,
-@"([-a-zA-z]*)[\s]*([0-9]*)[\s]*([a-zA-Z]*)[\s]*([a-zA-Z]*)[\s]*([0-9]*)[\s]*([a-zA-Z0-9]*)[\s]*([a-zA-Z0-9]*)[\s]*([a-zA-Z0-9\S]*)[\s]*([a-øA-Ø0-9 \.]*)");
+@"([-a-zA-z]*)[\s]*([0-9]*)[\s]*([a-zA-Z]*)[\s]*([a-zA-Z]*)[\s]*([0-9]*)[\s]*([a-zA-Z0-9]*)[\s]*([a-zA-Z0-9]*)[\s]*([a-zA-Z0-9\S]*)[\s]*([a-øA-Ø0-9 \.\(\)]*)");
         var ftpResponse = new FtpResponse()
         {
           FilePermissions = lineTokens.Groups[1].Value,
