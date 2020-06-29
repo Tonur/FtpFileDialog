@@ -106,7 +106,6 @@ namespace FtpFileDialog
       // 
       this.ChooseButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
       this.ChooseButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-      this.ChooseButton.Enabled = false;
       this.ChooseButton.Location = new System.Drawing.Point(816, 3);
       this.ChooseButton.Name = "ChooseButton";
       this.ChooseButton.Size = new System.Drawing.Size(75, 23);

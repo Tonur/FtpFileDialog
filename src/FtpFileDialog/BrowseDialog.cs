@@ -35,28 +35,73 @@ namespace FtpFileDialog
 
     /// <summary>
     /// Returns the selected file full path
+    /// Example ftp://test.com/FromAcubiz/regnskab2000/regnskab254.csv
     /// </summary>
     public string SelectedFile => SelectedPath + "/" + SelectedFileName;
 
-    /// <summary>
-    /// Returns the selected file full path encoded as to escape uri unfriendly characters
-    /// </summary>
-    public string SelectedFileUriEncoded => SelectedPath + "/" + SelectedFileNameUriEncoded;
-
-    public string RelativeFile => SelectedFile.Replace(Connection.Host, "");
-
-    public string RelativeFileUriEncoded => SelectedPath.Replace(Connection.Host, "") + "/" + SelectedFileNameUriEncoded;
-
+    //Example /FromAcubiz/regnskab2000/
     public string SelectedPath { get; private set; }
 
-    public string SelectedPathUrlEncoded =>
-      BaseAddress + Uri.EscapeDataString(SelectedPath.Replace(Connection.Host, ""));
+    /// <summary>
+    /// Returns the selected file full path encoded as to escape uri unfriendly characters
+    /// Example ftp://test.com/FromAAge/regnskabs%E5r2000/
+    /// </summary>
+    public string SelectedPathUriEncoded => BaseAddress + RelativePathUriEncoded;
 
-    public string RelativePath => SelectedFile.Replace(Connection.Host, "");
-
+    /// <summary>
+    /// 
+    /// Example regnskab254.csv
+    /// </summary>
     public string SelectedFileName { get; private set; }
 
+    /// <summary>
+    /// 
+    /// Example regnskabops%E6tning254.csv
+    /// </summary>
     public string SelectedFileNameUriEncoded => Uri.EscapeDataString(SelectedFileName);
+
+    /// <summary>
+    /// 
+    /// Example ftp://test.com/FromAAge/regnskabs%E5r2000/regnskabops%E6tning254.csv
+    /// </summary>
+    public string SelectedFileUriEncoded => SelectedPathUriEncoded + "/" + SelectedFileNameUriEncoded;
+
+    /// <summary>
+    /// 
+    /// Example /FromAcubiz/regnskab2000/regnskab254.csv
+    /// </summary>
+    public string RelativeFile => SelectedFile.Replace(Connection.Host, "").Replace("ftp://", "");
+
+    /// <summary>
+    /// 
+    /// Example /FromAAge/regnskabs%E5r2000/regnskabops%E6tning254.csv
+    /// </summary>
+    public string RelativeFileUriEncoded => SelectedPath.Replace(Connection.Host, "") + "/" + SelectedFileNameUriEncoded;
+
+    /// <summary>
+    /// 
+    /// Example /FromAcubiz/regnskab2000/
+    /// </summary>
+    public string RelativePath => SelectedPath.Replace(Connection.Host, "");
+
+    /// <summary>
+    /// 
+    /// Example /FromAAge/regnskabs%E5r2000/
+    /// </summary>
+    public string RelativePathUriEncoded => Uri.EscapeDataString(SelectedPath.Replace(Connection.Host, "")) + "/";
+
+    /// <summary>
+    /// Returns the relative path or file, depending on if a file has been selected
+    /// Example ftp://test.com/From%E5ge/regnskabs%E5r2000/ or ftp://test.com/From%E5ge/regnskabs%E5r2000/regnskabsops%E6tning254.csv
+    /// </summary>
+    public string DisplayShort => string.IsNullOrWhiteSpace(SelectedFileName) ? RelativePath : SelectedFileName;
+
+    /// <summary>
+    /// Returns the whole path or whole file, depending on if a file has been selected
+    /// Example ftp://test.com/From%E5ge/regnskabs%E5r2000/ or ftp://test.com/From%E5ge/regnskabs%E5r2000/regnskabsops%E6tning254.csv
+    /// </summary>
+    public string DisplayLongName => string.IsNullOrWhiteSpace(SelectedFileName) ? SelectedPath : SelectedFile;
+
 
     private string _currentPath;
 
@@ -103,7 +148,7 @@ namespace FtpFileDialog
       LoadNewHostButton.ToolTipText = Properties.Resources.ResourceManager.GetString("BrowseDialog_LoadNewHostButton", CultureInfo.CurrentUICulture);
     }
 
-    public BrowseDialog(string hostUrl, string path, int port, string username, string password, bool passiveMode, 
+    public BrowseDialog(string hostUrl, string path, int port, string username, string password, bool passiveMode,
       bool? promptForServer = null)
       : this(
         new ConnectionDetails
@@ -278,12 +323,12 @@ namespace FtpFileDialog
       if (FileList.SelectedItems.Count > 0)
       {
         SelectedFileName = FileList.SelectedItems[0].Text;
-        ChooseButton.Enabled = true;
+        //ChooseButton.Enabled = true;
       }
       else
       {
         SelectedFileName = Empty;
-        ChooseButton.Enabled = false;
+        //ChooseButton.Enabled = false;
       }
     }
 
@@ -292,12 +337,12 @@ namespace FtpFileDialog
       if (FileList.SelectedItems.Count > 0)
       {
         SelectedFileName = FileList.SelectedItems[0].Text;
-        ChooseButton.Enabled = true;
+        //ChooseButton.Enabled = true;
       }
       else
       {
         SelectedFileName = Empty;
-        ChooseButton.Enabled = false;
+        //ChooseButton.Enabled = false;
       }
     }
 
@@ -352,9 +397,9 @@ namespace FtpFileDialog
       }
       else
       {
+        SelectedFileName = Empty;
+        //ChooseButton.Enabled = false;
       }
-      SelectedFileName = Empty;
-      ChooseButton.Enabled = false;
       foreach (var d in clickNode.Directories)
       {
 
