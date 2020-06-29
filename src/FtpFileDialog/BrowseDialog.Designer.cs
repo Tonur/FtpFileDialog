@@ -112,6 +112,7 @@ namespace FtpFileDialog
       this.ChooseButton.TabIndex = 0;
       this.ChooseButton.Text = "Vælg";
       this.ChooseButton.UseVisualStyleBackColor = true;
+      this.ChooseButton.Click += new System.EventHandler(this.ChooseButton_Click);
       // 
       // splitContainer1
       // 
