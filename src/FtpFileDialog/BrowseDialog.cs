@@ -44,7 +44,7 @@ namespace FtpFileDialog
     /// Example /FromAcubiz/regnskab2000/
     /// </summary>
     public string SelectedPath { get; set; }
-    
+
     /// <summary>
     /// Returns the selected file full path encoded as to escape uri unfriendly characters
     /// Example ftp://test.com/FromAAge/regnskabs%E5r2000/
@@ -55,7 +55,7 @@ namespace FtpFileDialog
     /// 
     /// Example regnskab254.csv
     /// </summary>
-    public string SelectedFileName { get; private set; } 
+    public string SelectedFileName { get; private set; }
 
     /// <summary>
     /// 
@@ -79,7 +79,7 @@ namespace FtpFileDialog
     /// 
     /// Example /FromAAge/regnskabs%E5r2000/regnskabops%E6tning254.csv
     /// </summary>
-    public string RelativeFileUriEncoded => SelectedPath.Replace(Connection.Host, "") + "/" + SelectedFileNameUriEncoded;
+    public string RelativeFileUriEncoded => SelectedPath.Replace(Connection.Host, "").Replace("ftp://", "") + "/" + SelectedFileNameUriEncoded;
 
     /// <summary>
     /// 
@@ -356,27 +356,35 @@ namespace FtpFileDialog
       var list = new List<ListViewItem>();
       var skip = FileList.Items.Cast<ListViewItem>().Any(i => i.Text == "..");
 
-      var lvi = FileList.SelectedItems?[0];
-      int index = skip ? lvi.Index - 1 : lvi.Index;
-      switch (lvi.ImageIndex)
+      if (FileList.SelectedItems.Count != 0)
       {
-        case 0:
-          if (FileList.SelectedItems?[0].Text == "..")
-          {
-            var parNode = (FtpTreeNode)DirectoryTree.SelectedNode.Parent;
-            parNode.Select();
-          }
-          else
-          {
-            var parNode = (FtpTreeNode)DirectoryTree.SelectedNode;
-            var selectedNode = (FtpTreeNode)parNode.Nodes[index];
-            selectedNode.Select();
-          }
-          break;
-        case 1:
-          ChooseButton.PerformClick();
-          break;
-          //}
+
+        var lvi = FileList.SelectedItems[0];
+        int index = skip ? lvi.Index - 1 : lvi.Index;
+        switch (lvi.ImageIndex)
+        {
+          case 0:
+            if (FileList.SelectedItems?[0].Text == "..")
+            {
+              var parNode = (FtpTreeNode)DirectoryTree.SelectedNode.Parent;
+              parNode.Select();
+            }
+            else
+            {
+              var parNode = (FtpTreeNode)DirectoryTree.SelectedNode;
+              var selectedNode = (FtpTreeNode)parNode.Nodes[index];
+              selectedNode.Select();
+            }
+            break;
+          case 1:
+            ChooseButton.PerformClick();
+            break;
+            //}
+        }
+      }
+      else
+      {
+        SelectedFileName = Empty;
       }
     }
 
