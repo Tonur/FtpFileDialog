@@ -121,13 +121,13 @@ namespace FtpFileDialog
       }
 
       Connection = connectionDetails ?? new ConnectionDetails
-      {
-        Host = Empty,
-        StartPath = Empty,
-        FtpPort = 21,
-        FtpCred = new NetworkCredential(Empty, Empty),
-        Passive = true,
-      };
+      (
+        Empty,
+        Empty,
+        new NetworkCredential(Empty, Empty),
+        21,
+        true
+      );
 
       var directoryImages = new ImageList();
       directoryImages.Images.Add(Properties.Resources.FolderClosed_16x);
@@ -156,13 +156,13 @@ namespace FtpFileDialog
       bool? promptForServer = null)
       : this(
         new ConnectionDetails
-        {
-          Host = hostUrl,
-          StartPath = path,
-          FtpPort = port,
-          FtpCred = new NetworkCredential(username, password),
-          Passive = passiveMode,
-        }, false)
+        (
+          hostUrl,
+          path,
+          new NetworkCredential(username, password),
+          port,
+          passiveMode
+        ), false)
     {
 
     }
@@ -170,13 +170,13 @@ namespace FtpFileDialog
     public BrowseDialog(bool? promptForServer = true)
       : this(
         new ConnectionDetails
-        {
-          Host = Empty,
-          StartPath = Empty,
-          FtpPort = 21,
-          FtpCred = new NetworkCredential(Empty, Empty),
-          Passive = true,
-        }, promptForServer)
+        (
+          Empty,
+          Empty,
+           new NetworkCredential(Empty, Empty),
+          21,
+          true
+        ), promptForServer)
     {
 
     }
@@ -446,19 +446,19 @@ namespace FtpFileDialog
                       : serverAddressParse.Groups[1].Value);
 
       Connection = new ConnectionDetails
-      {
-        FtpCred = addressStringMatches.Success
-          ? new NetworkCredential(addressStringMatches.Groups[1].Value, addressStringMatches.Groups[2].Value)
-          : new NetworkCredential(newLogin.Username, newLogin.Password),
-        Host = addressStringMatches.Success ? addressStringMatches.Groups[3].Value : serverAddressParse.Groups[1].Value,
-        Passive = newLogin.PassiveMode,
-        FtpPort = newLogin.Port,
-        StartPath = SelectedPath = !IsNullOrEmpty(newLogin.StartPath)
+      (
+        host: addressStringMatches.Success ? addressStringMatches.Groups[3].Value : serverAddressParse.Groups[1].Value,
+        startPath: SelectedPath = !IsNullOrEmpty(newLogin.StartPath)
           ? newLogin.StartPath
           : _currentPath = addressStringMatches.Success
             ? addressStringMatches.Groups[4].Value
-            : serverAddressParse.Groups[2].Value
-      };
+            : serverAddressParse.Groups[2].Value,
+        ftpCred: addressStringMatches.Success
+          ? new NetworkCredential(addressStringMatches.Groups[1].Value, addressStringMatches.Groups[2].Value)
+          : new NetworkCredential(newLogin.Username, newLogin.Password),
+        ftpPort: newLogin.Port,
+        passive: newLogin.PassiveMode
+      );
       _fsLoader = new BackgroundWorker { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
       _fsLoader.DoWork += FsLoader_DoWork;
       _fsLoader.RunWorkerCompleted += FsLoader_RunWorkerCompleted;

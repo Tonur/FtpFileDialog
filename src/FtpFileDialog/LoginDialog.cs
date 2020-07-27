@@ -50,7 +50,7 @@ namespace FtpFileDialog
     }
 
     public LoginDialog(string host, string path, int port, string username, string password, bool passiveMode) 
-      : this(new ConnectionDetails(){Host = host, FtpPort = port, StartPath = path, Passive = passiveMode, FtpCred = new NetworkCredential(username, password)})
+      : this(new ConnectionDetails(host, path, new NetworkCredential(username, password), port, passiveMode))
     {
     }
 
@@ -117,17 +117,7 @@ namespace FtpFileDialog
 
     private void ConnectButton_Click(object sender, EventArgs e)
     {
-      Match match1 = Regex.Match(Server, "ftp\\:\\/\\/([a-zA-Z1-9]*)[ ]?\\:[ ]?([a-zA-Z1-9]*)[ ]?\\@[ ]?([a-zA-Z1-9\\.]*)[\\/]?([a-zA-Z1-9]*)?");
-      Match match2 = Regex.Match(Server, "[ ]?([a-zA-Z1-9\\.]*)[\\/]?([a-zA-Z1-9/]*)?");
-      Connection = new ConnectionDetails
-      {
-        FtpCred = match1.Success
-          ? new NetworkCredential(match1.Groups[1].Value, match1.Groups[2].Value)
-          : new NetworkCredential(Username, Password),
-        Host = match1.Success ? match1.Groups[3].Value : match2.Groups[1].Value,
-        Passive = PassiveMode,
-        FtpPort = Port
-      };
+      Connection = new ConnectionDetails(Server, PassiveCheckbox.Checked);
     }
   }
 }
