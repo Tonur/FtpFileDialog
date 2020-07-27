@@ -15,8 +15,10 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
     <NuspecFile>FtpFileDialog.nuspec</NuspecFile>
-    <NuspecProperties></NuspecProperties>
-    <NuspecBasePath></NuspecBasePath>
+    <NuspecProperties>
+    </NuspecProperties>
+    <NuspecBasePath>
+    </NuspecBasePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
