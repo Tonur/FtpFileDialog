@@ -6,7 +6,7 @@ namespace FtpFileDialog
   public class ConnectionDetails
   {
     private readonly Regex _regexPattern =
-      new Regex(@"[ftp\:\/\/]*([A-ø0-9]*)?[ ]?[\:]?[ ]?([A-ø0-9]*)?[ ]?[\@]?[ ]?([A-ø0-9\.]*)[\/]?([A-ø0-9]*)?[\:]?([0-9]+)?");
+      new Regex(@"[ftp\:\/\/]*([A-ø0-9]*)?[ ]?[\:]?[ ]?([A-ø0-9]*)?[ ]?[\@]?[ ]?([A-ø0-9\.]*)[\/]?([A-ø0-9\/ \(\)\.]*)?[\:]?([0-9]+)?");
 
     public string Host { get; set; }
     public string StartPath { get; set; }
