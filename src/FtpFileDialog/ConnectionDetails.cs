@@ -6,7 +6,7 @@ namespace FtpFileDialog
   public class ConnectionDetails
   {
     private readonly Regex _regexPattern =
-      new Regex("[ftp\\:\\/\\/]?([A-ø0-9]*)?[ ]?[\\:]?[ ]?([A-ø0-9]*)?[ ]?[\\@]?[ ]?([A-ø0-9\\.]*)[\\/]?([A-ø0-9]*)?(\\:[0-9]*)?");
+      new Regex("[ftp\\:\\/\\/]?([A-ø0-9]*)?[ ]?[\\:]?[ ]?([A-ø0-9]*)?[ ]?[\\@]?[ ]?([A-ø0-9\\.]*)[\\/]?([A-ø0-9]*)?(\\:[0-9]+)?");
 
     public string Host { get; set; }
     public string StartPath { get; set; }
@@ -31,7 +31,7 @@ namespace FtpFileDialog
       StartPath = startPath ?? match.Groups[4].Value;
       FtpCred = ftpCred ?? new NetworkCredential(match.Groups[1].Value, match.Groups[2].Value);
       Passive = passive;
-      FtpPort = ftpPort ?? (match.Success ? int.Parse(match.Groups[5].Value) : 21);
+      FtpPort = ftpPort ?? (match.Groups[5].Success ? int.Parse(match.Groups[5].Value) : 21);
     }
 
     public ConnectionDetails(string host, string startPath, NetworkCredential ftpCred, int ftpPort = 21, bool passive = false)
