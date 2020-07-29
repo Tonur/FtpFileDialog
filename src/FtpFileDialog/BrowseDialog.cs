@@ -112,7 +112,36 @@ namespace FtpFileDialog
     #endregion
 
     #region Constructors
-    public BrowseDialog(ConnectionDetails connectionDetails, bool? promptForServer = null, CultureInfo cultureInfo = null)
+    public BrowseDialog()
+      : this(
+        new ConnectionDetails
+        (
+          Empty,
+          Empty,
+          new NetworkCredential(Empty, Empty),
+          21,
+          true
+        ), true)
+    {
+
+    }
+
+    public BrowseDialog(string hostUrl, string path, int port, string username, string password, bool passiveMode,
+      bool promptForServer = false)
+      : this(
+        new ConnectionDetails
+        (
+          hostUrl,
+          path,
+          new NetworkCredential(username, password),
+          port,
+          passiveMode
+        ), promptForServer)
+    {
+
+    }
+
+    public BrowseDialog(ConnectionDetails connectionDetails, bool promptForServer = false, CultureInfo cultureInfo = null)
     {
       InitializeComponent();
       if (cultureInfo != null)
@@ -120,6 +149,7 @@ namespace FtpFileDialog
         Thread.CurrentThread.CurrentUICulture = cultureInfo;
       }
 
+      _promptForServer = promptForServer;
       Connection = connectionDetails ?? new ConnectionDetails
       (
         Empty,
@@ -139,7 +169,6 @@ namespace FtpFileDialog
       fileImages.Images.Add(Properties.Resources.FolderClosed_16x);
       fileImages.Images.Add(Properties.Resources.Document_16x);
       FileList.SmallImageList = fileImages;
-      _promptForServer = promptForServer ?? true;
 
       SetupLocalization();
     }
@@ -150,35 +179,6 @@ namespace FtpFileDialog
       ChooseButton.Text = Properties.Resources.ResourceManager.GetString("BrowseDialog_ChooseButton", CultureInfo.CurrentUICulture);
       UpDirectoryButton.ToolTipText = Properties.Resources.ResourceManager.GetString("BrowseDialog_UpDirectoryButton", CultureInfo.CurrentUICulture);
       LoadNewHostButton.ToolTipText = Properties.Resources.ResourceManager.GetString("BrowseDialog_LoadNewHostButton", CultureInfo.CurrentUICulture);
-    }
-
-    public BrowseDialog(string hostUrl, string path, int port, string username, string password, bool passiveMode,
-      bool? promptForServer = null)
-      : this(
-        new ConnectionDetails
-        (
-          hostUrl,
-          path,
-          new NetworkCredential(username, password),
-          port,
-          passiveMode
-        ), false)
-    {
-
-    }
-
-    public BrowseDialog(bool? promptForServer = true)
-      : this(
-        new ConnectionDetails
-        (
-          Empty,
-          Empty,
-           new NetworkCredential(Empty, Empty),
-          21,
-          true
-        ), promptForServer)
-    {
-
     }
     #endregion
 
