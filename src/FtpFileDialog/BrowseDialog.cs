@@ -127,16 +127,9 @@ namespace FtpFileDialog
     }
 
     public BrowseDialog(string hostUrl, string path, int port, string username, string password, bool passiveMode,
-      bool promptForServer = false)
-      : this(
-        new ConnectionDetails
-        (
-          hostUrl,
-          path,
-          new NetworkCredential(username, password),
-          port,
-          passiveMode
-        ), promptForServer)
+      bool promptForServer = false, CultureInfo cultureInfo = null)
+      : this(new ConnectionDetails(hostUrl, path, new NetworkCredential(username, password), port, passiveMode), 
+        promptForServer, cultureInfo)
     {
 
     }
