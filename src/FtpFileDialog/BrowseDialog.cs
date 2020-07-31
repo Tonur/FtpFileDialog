@@ -31,19 +31,25 @@ namespace FtpFileDialog
     public ConnectionDetails Connection { get; set; }
     public bool TestMode { get; set; }
 
-    public string BaseAddress { get; set; }
+    public string BaseAddress => Connection.BaseAddress;
+
+    public string ConnectionAddress => $@"ftp://{Connection.FtpCred.UserName}:{Connection.FtpCred.Password}@{Connection.Host}:{Connection.Port}/";
+
+    public string StartPath => Connection.Path;
+
+    public string StartAddress => $@"{BaseAddress}:{Connection.Port}/{StartPath}";
 
     /// <summary>
     /// Returns the selected file full path
     /// Example ftp://test.com/FromAcubiz/regnskab2000/regnskab254.csv
     /// </summary>
-    public string SelectedFile => SelectedPath + "/" + SelectedFileName + (IsDirectory ? "/" : "");
+    public string SelectedFileDisplay => SelectedPathDisplay + "/" + (IsDirectory ? Empty : SelectedFileNameDisplay);
 
     /// <summary>
     /// 
     /// Example /FromAcubiz/regnskab2000/
     /// </summary>
-    public string SelectedPath { get; set; }
+    public string SelectedPathDisplay { get; set; }
 
     /// <summary>
     /// Returns the selected file full path encoded as to escape uri unfriendly characters
@@ -55,55 +61,55 @@ namespace FtpFileDialog
     /// 
     /// Example regnskab254.csv
     /// </summary>
-    public string SelectedFileName { get; private set; }
+    public string SelectedFileNameDisplay { get; private set; }
 
     /// <summary>
     /// 
     /// Example regnskabops%E6tning254.csv
     /// </summary>
-    public string SelectedFileNameUriEncoded => Uri.EscapeUriString(SelectedFileName) + (IsDirectory ? "/" : "");
+    public string SelectedFileNameUriEncoded => Uri.EscapeUriString(SelectedFileNameDisplay);
 
     /// <summary>
     /// 
     /// Example ftp://test.com/FromAAge/regnskabs%E5r2000/regnskabops%E6tning254.csv
     /// </summary>
-    public string SelectedFileUriEncoded => SelectedPathUriEncoded + SelectedFileNameUriEncoded;
+    public string SelectedFileUriEncoded => SelectedPathUriEncoded + (IsDirectory ? Empty : "/" + SelectedFileNameUriEncoded.TrimEnd('/'));
 
     /// <summary>
     /// 
     /// Example /FromAcubiz/regnskab2000/regnskab254.csv
     /// </summary>
-    public string RelativeFile => SelectedFile.Replace(Connection.Host, "").Replace("ftp://", "");
+    public string RelativeFileDisplay => SelectedFileDisplay.Replace(BaseAddress, "");
 
     /// <summary>
     /// 
     /// Example /FromAAge/regnskabs%E5r2000/regnskabops%E6tning254.csv
     /// </summary>
-    public string RelativeFileUriEncoded => SelectedPath.Replace(Connection.Host, "").Replace("ftp://", "") + "/" + SelectedFileNameUriEncoded;
+    public string RelativeFileUriEncoded => SelectedPathDisplay.Replace(BaseAddress, "") + (IsDirectory ? Empty : "/" + SelectedFileNameUriEncoded);
 
     /// <summary>
-    /// 
+    /// The relative path of the selected items parrent
     /// Example /FromAcubiz/regnskab2000/
     /// </summary>
-    public string RelativePath => SelectedPath.Replace(Connection.Host, "");
+    public string RelativePathDisplay => IsDirectory ? RelativeFileDisplay : SelectedPathDisplay.Replace(BaseAddress, "");
 
     /// <summary>
-    /// 
+    /// The relative path of the selected items parrent
     /// Example /FromAAge/regnskabs%E5r2000/
     /// </summary>
-    public string RelativePathUriEncoded => Uri.EscapeUriString(SelectedPath.Replace(Connection.Host, "").Replace("ftp://", "")) + "/";
+    public string RelativePathUriEncoded => Uri.EscapeUriString(SelectedPathDisplay.Replace(BaseAddress, ""));
 
     /// <summary>
     /// Returns the relative path or file, depending on if a file has been selected
     /// Example ftp://test.com/From%E5ge/regnskabs%E5r2000/ or ftp://test.com/From%E5ge/regnskabs%E5r2000/regnskabsops%E6tning254.csv
     /// </summary>
-    public string DisplayShortName => string.IsNullOrWhiteSpace(SelectedFileName) ? RelativePath : SelectedFileName;
+    public string DisplayShortName => string.IsNullOrWhiteSpace(SelectedFileNameDisplay) ? RelativePathDisplay : SelectedFileNameDisplay;
 
     /// <summary>
     /// Returns the whole path or whole file, depending on if a file has been selected
     /// Example ftp://test.com/From%E5ge/regnskabs%E5r2000/ or ftp://test.com/From%E5ge/regnskabs%E5r2000/regnskabsops%E6tning254.csv
     /// </summary>
-    public string DisplayLongName => string.IsNullOrWhiteSpace(SelectedFileName) ? SelectedPath : SelectedFile;
+    public string DisplayLongName => string.IsNullOrWhiteSpace(SelectedFileNameDisplay) ? SelectedPathDisplay : SelectedFileDisplay;
 
     public bool IsDirectory { get; set; } = true;
 
@@ -128,7 +134,7 @@ namespace FtpFileDialog
 
     public BrowseDialog(string hostUrl, string path, int port, string username, string password, bool passiveMode,
       bool promptForServer = false, CultureInfo cultureInfo = null)
-      : this(new ConnectionDetails(hostUrl, path, new NetworkCredential(username, password), port, passiveMode), 
+      : this(new ConnectionDetails(hostUrl, path, new NetworkCredential(username, password), port, passiveMode),
         promptForServer, cultureInfo)
     {
 
@@ -198,11 +204,12 @@ namespace FtpFileDialog
 
     private void LoadSubNodes(FtpTreeNode rootNode)
     {
-      var ub = rootNode.Path != Empty
-        ? new UriBuilder("ftp", rootNode.Server, rootNode.Port, rootNode.Path)
-        : new UriBuilder("ftp", rootNode.Server, rootNode.Port);
-      var uriString = ub.Uri.OriginalString;
-      _req = (FtpWebRequest)WebRequest.Create(ub.Uri);
+      var uri = Uri.TryCreate(rootNode.FtpPath, UriKind.Absolute, out var tryParseUri) 
+        ? tryParseUri : rootNode.Path != Empty
+          ? new UriBuilder("ftp", rootNode.Server, rootNode.Port, rootNode.Path).Uri
+          : new UriBuilder("ftp", rootNode.Server, rootNode.Port).Uri;
+      var uriString = uri.OriginalString;
+      _req = (FtpWebRequest)WebRequest.Create(uri);
       _req.Credentials = Connection.FtpCred;
       _req.UsePassive = Connection.Passive;
       _req.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
@@ -218,23 +225,28 @@ namespace FtpFileDialog
         //{
         foreach (var response in ftpResponse)
         {
-          if (response.FilePermissions.StartsWith("d"))
+          switch (response.ItemType)
           {
-            if (response.FileName == ".")
-              continue;
-            var subnode = new FtpTreeNode(rootNode.Server,
-              rootNode.Path + "/" + response.FileName, rootNode.Port);
-            subnode.Text = subnode.Directory;
-            if (response.FileName != "..")
-            {
-              rootNode.Nodes.Add(subnode);
-              LoadSubNodes(subnode);
-            }
-            rootNode.AddDirectory(response.FileName);
-          }
-          else
-          {
-            rootNode.AddFile(response.FileName);
+            case FileType.Directory:
+              {
+                var subnode = new FtpTreeNode(rootNode.Server,
+                  rootNode.Path + "/" + response.FileName, rootNode.Port);
+                subnode.Text = subnode.Directory;
+                rootNode.Nodes.Add(subnode);
+                LoadSubNodes(subnode);
+                //rootNode.AddDirectory(response.FileName);
+                goto case FileType.UpstreamDirectory; //Fallthrough, because it will not work for me, fucking stupid
+              }
+            case FileType.UpstreamDirectory:
+              rootNode.AddDirectory(response.FileName);
+              break;
+            case FileType.CurrentDirectory:
+              break;
+            case FileType.File:
+              rootNode.AddFile(response.FileName);
+              break;
+            default:
+              throw new ArgumentOutOfRangeException();
           }
         }
       }
@@ -288,8 +300,8 @@ namespace FtpFileDialog
     {
       var rootNode =
       IsNullOrEmpty(_currentPath)
-        ? new FtpTreeNode(Connection.Host, Connection.StartPath, Connection.FtpPort)
-        : new FtpTreeNode(Connection.Host, _currentPath, Connection.FtpPort);
+        ? new FtpTreeNode(Connection.Host, Connection.Path, Connection.Port)
+        : new FtpTreeNode(Connection.Host, _currentPath, Connection.Port);
       LoadSubNodes(rootNode);
       e.Result = rootNode;
     }
@@ -319,12 +331,12 @@ namespace FtpFileDialog
     {
       if (FileList.SelectedItems.Count > 0)
       {
-        SelectedFileName = FileList.SelectedItems[0].Text;
+        SelectedFileNameDisplay = FileList.SelectedItems[0].Text;
         //ChooseButton.Enabled = true;
       }
       else
       {
-        SelectedFileName = Empty;
+        SelectedFileNameDisplay = Empty;
         //ChooseButton.Enabled = false;
       }
     }
@@ -333,13 +345,13 @@ namespace FtpFileDialog
     {
       if (FileList.SelectedItems.Count > 0)
       {
-        SelectedFileName = FileList.SelectedItems[0].Text;
+        SelectedFileNameDisplay = FileList.SelectedItems[0].Text;
         IsDirectory = FileList.SelectedItems[0].ImageIndex == 0;
         //ChooseButton.Enabled = true;
       }
       else
       {
-        SelectedFileName = Empty;
+        SelectedFileNameDisplay = Empty;
         //ChooseButton.Enabled = false;
       }
     }
@@ -377,7 +389,7 @@ namespace FtpFileDialog
       }
       else
       {
-        SelectedFileName = Empty;
+        SelectedFileNameDisplay = Empty;
       }
     }
 
@@ -397,7 +409,7 @@ namespace FtpFileDialog
     {
       var clickNode = (FtpTreeNode)e.Node;
       FileList.Items.Clear();
-      SelectedPath = clickNode.FullPath;
+      SelectedPathDisplay = clickNode.FullPath;
       if (clickNode.Files.Count != 0)
       {
         //ChooseButton.Enabled = false;
@@ -426,32 +438,7 @@ namespace FtpFileDialog
       var newLogin = new LoginDialog(Connection);
       if (newLogin.ShowDialog() != DialogResult.OK) return;
 
-      var addressStringMatches =
-        Regex.Match(newLogin.Server,
-        @"ftp\:\/\/([a-zA-Z1-9]*)[ ]?\:[ ]?([a-zA-Z1-9]*)[ ]?\@[ ]?([a-zA-Z1-9\.]*)[\/]?([a-zA-Z1-9]*)?");
-
-
-      var serverAddressParse = Regex.Match(newLogin.Server, @"[ ]?([a-zA-Z1-9\.]*)[\/]?([a-zA-Z1-9/]*)?");
-
-      BaseAddress = @"ftp://" +
-                    (addressStringMatches.Success
-                      ? addressStringMatches.Groups[3].Value
-                      : serverAddressParse.Groups[1].Value);
-
-      Connection = new ConnectionDetails
-      (
-        host: addressStringMatches.Success ? addressStringMatches.Groups[3].Value : serverAddressParse.Groups[1].Value,
-        startPath: SelectedPath = !IsNullOrEmpty(newLogin.StartPath)
-          ? newLogin.StartPath
-          : _currentPath = addressStringMatches.Success
-            ? addressStringMatches.Groups[4].Value
-            : serverAddressParse.Groups[2].Value,
-        ftpCred: addressStringMatches.Success
-          ? new NetworkCredential(addressStringMatches.Groups[1].Value, addressStringMatches.Groups[2].Value)
-          : new NetworkCredential(newLogin.Username, newLogin.Password),
-        ftpPort: newLogin.Port,
-        passive: newLogin.PassiveMode
-      );
+      Connection = newLogin.Connection;
       _fsLoader = new BackgroundWorker { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
       _fsLoader.DoWork += FsLoader_DoWork;
       _fsLoader.RunWorkerCompleted += FsLoader_RunWorkerCompleted;
@@ -478,8 +465,10 @@ namespace FtpFileDialog
 
     private void ChooseButton_Click(object sender, EventArgs e)
     {
-      if (SelectedFileName != Empty && FileList.SelectedItems.Count <= 0)
+      if (FileList.SelectedItems.Count != 0 && IsDirectory)
+      {
         FileList_MouseDoubleClick(null, null);
+      }
     }
     #endregion
   }

@@ -57,10 +57,10 @@ namespace FtpFileDialog
     public LoginDialog(ConnectionDetails connectionDetails)
     {
       InitializeComponent();
-      Server = string.IsNullOrEmpty(connectionDetails.StartPath) 
+      Server = string.IsNullOrEmpty(connectionDetails.Path) 
         ? connectionDetails.Host 
-        : $"{connectionDetails.Host}/{connectionDetails.StartPath}";
-      Port = connectionDetails.FtpPort;
+        : $"{connectionDetails.Host}/{connectionDetails.Path}";
+      Port = connectionDetails.Port;
       Username = connectionDetails.FtpCred.UserName;
       Password = connectionDetails.FtpCred.Password;
       PassiveMode = connectionDetails.Passive;
@@ -91,12 +91,12 @@ namespace FtpFileDialog
     {
       ConnectButton.Enabled = ValidateForm();
     }
+
     #endregion
     private bool ValidateForm()
     {
-      var addressStringMatches = Regex.Match(Server, @"ftp\:\/\/([a-zA-Z1-9]*)[ ]?\:[ ]?([a-zA-Z1-9]*)[ ]?\@[ ]?([a-zA-Z1-9\.]*)[\/]?");
-
-      if (addressStringMatches.Success)
+      var addressStringMatches = ConnectionDetails.FtpAddressPattern.Match(Server);
+      if (addressStringMatches?.Success ?? false)
       {
         return true;
       }
@@ -117,7 +117,9 @@ namespace FtpFileDialog
 
     private void ConnectButton_Click(object sender, EventArgs e)
     {
-      Connection = new ConnectionDetails(Server, PassiveCheckbox.Checked);
+      Connection = ConnectionDetails.FtpAddressPattern.Match(Server).Success 
+        ? new ConnectionDetails(Server, PassiveCheckbox.Checked) 
+        : new ConnectionDetails(Server, StartPath, new NetworkCredential(Username, Password), Port, PassiveCheckbox.Checked);
     }
   }
 }

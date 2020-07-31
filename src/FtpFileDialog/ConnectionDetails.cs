@@ -5,14 +5,15 @@ namespace FtpFileDialog
 {
   public class ConnectionDetails
   {
-    private readonly Regex _regexPattern =
-      new Regex(@"(?:ftp\:\/\/)*((?<=.)[A-ø0-9]*)?[\s]*[\:]?[\s]*((?<=.)[A-ø0-9]*)?[\s]*[\@]?[\s]*([A-z0-9\.]*)[\/]?([A-ø0-9\s\%\/\(\)\.]*)?[\:]?([0-9]+)?");
+    public static readonly Regex FtpAddressPattern =
+      new Regex(@"(?:ftp\:\/\/)+(?<Username>[^\:]+)\s*\:\s*(?<Password>[^\@]+)\s*\@\s*(?<Host>[^\/\:]*)\:?(?<Port>[\d]+)?\/?(?<Path>.*)?");
 
     public string Host { get; set; }
-    public string StartPath { get; set; }
+    public string Path { get; set; }
     public NetworkCredential FtpCred { get; set; }
-    public int FtpPort { get; set; }
+    public int Port { get; set; }
     public bool Passive { get; set; }
+    public string BaseAddress => $@"ftp://{Host}";
 
     /// <summary>
     /// Allows for parsing an ftp address with the credentials in the URL.
@@ -20,26 +21,26 @@ namespace FtpFileDialog
     /// <param name="host"></param>
     /// <param name="passive"></param>
     /// <param name="ftpCred"></param>
-    /// <param name="startPath"></param>
-    /// <param name="ftpPort"></param>
+    /// <param name="path"></param>
+    /// <param name="port"></param>
     public ConnectionDetails(string host, bool passive = false, NetworkCredential ftpCred = null,
-      string startPath = null, int? ftpPort = null)
+      string path = null, int port = 21)
     {
-      var match = _regexPattern.Match(host);
+      var match = FtpAddressPattern.Match(host);
 
-      Host = match.Success ? match.Groups[3].Value : host;
-      StartPath = startPath ?? match.Groups[4].Value;
-      FtpCred = ftpCred ?? new NetworkCredential(match.Groups[1].Value, match.Groups[2].Value);
+      Host = match.Success ? match.Groups["Host"].Value : host;
+      Path = match.Success ? match.Groups["Path"].Value : path;
+      FtpCred = match.Success ? new NetworkCredential(match.Groups["Username"].Value, match.Groups["Password"].Value) : ftpCred;
       Passive = passive;
-      FtpPort = ftpPort ?? (match.Groups[5].Success ? int.Parse(match.Groups[5].Value) : 21);
+      Port = match.Success ? int.TryParse(match.Groups["Port"].Value, out var result) ? result : 21 : port;
     }
 
-    public ConnectionDetails(string host, string startPath, NetworkCredential ftpCred, int ftpPort = 21, bool passive = false)
+    public ConnectionDetails(string host, string path, NetworkCredential ftpCred, int port = 21, bool passive = false)
     {
       Host = host;
-      StartPath = startPath;
+      Path = path;
       FtpCred = ftpCred;
-      FtpPort = ftpPort;
+      Port = port;
       Passive = passive;
     }
   }

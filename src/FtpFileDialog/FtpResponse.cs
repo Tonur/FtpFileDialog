@@ -9,33 +9,44 @@ namespace FtpFileDialog
 {
   public class FtpResponse
   {
-    public FileType Type
+    public FileType ItemType
     {
       get
       {
-        if (ObjectType != 'd') //.Contains("d")
-          return FileType.File;
+        if (FileChar != 'd') //.Contains("d")
+          return FtpFileDialog.FileType.File;
         switch (FileName)
         {
           case ".":
-            return FileType.CurrentDirectory;
+            return FtpFileDialog.FileType.CurrentDirectory;
           case "..":
-            return FileType.UpstreamDirectory;
+            return FtpFileDialog.FileType.UpstreamDirectory;
           default:
-            return FileType.Directory;
+            return FtpFileDialog.FileType.Directory;
         }
       }
     }
 
-    public char ObjectType { get; set; }
+    public char FileChar { get; set; }
     public string FilePermissions { get; set; }
     public int FileSize { get; set; }
     public DateTime Date { get; set; }
     public string FileName { get; set; }
+    public string FileType => ItemType == FtpFileDialog.FileType.File ? FileName.Split('.').LastOrDefault() : string.Empty;
 
-    private static DateTime _lastDateTime = DateTime.MinValue;
+    public string PrettyName => FileName.Replace(FileType, "");
+
+    private static DateTime _lastDateTime = DateTime.Today;
+
     private static Regex _regex = new Regex(
-      @"^([d-])([rwxt-]{3}){3}\s+\d{1,}\s+.*?(\d{1,})\s+(\w+\s+\d{1,2}\s+(?:\d{4})?)(\d{1,2}:\d{2})?\s+(.+?)\s?$",
+      @"^ (?<FileType>[d-])
+                (?<FilePermission>[rwxt-]{3}){3}\s+\d{1,}\s+
+                (?<User>[\w]*)?\s+
+                (?<Group>[\w]*)?\s+
+                (?<FileSize>\d{1,})\s+
+                (?<Date>\w+\s+\d{1,2}\s+(?:\d{4})?)
+                (?<Time>\d{1,2}:\d{2})?\s+
+                (?<FileName>.+?)\s?$",
     RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
 
@@ -46,10 +57,12 @@ namespace FtpFileDialog
 
       foreach (var line in stringLines)
       {
-        //d--x--x--x    2 ftp ftp       4096        Mar 07  2002          bin
-        //-rw-r--r--    1 ftp ftp       659450      Jun 15        05:07   TEST.TXT
-        //-rw-r--r--    1 ftp ftp       101786380   Sep 08  2008          TEST03-05.TXT
-        //drwxrwxr-x    2 ftp ftp       4096        May 06        12:24   dropoff
+        //drwxrwxrwx    1 user  group     0           Feb 27  2019          FromAcubiz
+        //drwxrwxrwx    1 user  group     0           Jan 29  2019          ToAcubiz
+        //d--x--x--x    2 ftp   ftp       4096        Mar 07  2002          bin
+        //-rw-r--r--    1 ftp   ftp       659450      Jun 15        05:07   TEST.TXT
+        //-rw-r--r--    1 ftp   ftp       101786380   Sep 08  2008          TEST03-05.TXT
+        //drwxrwxr-x    2 ftp   ftp       4096        May 06        12:24   dropoff
 
         var lineTokens = _regex.Match(line);
 
@@ -64,13 +77,13 @@ namespace FtpFileDialog
 
         var ftpResponse = new FtpResponse()
         {
-          ObjectType = lineTokens.Groups[1].Value[0],
-          FilePermissions = lineTokens.Groups[2].Value,
-          FileSize = int.TryParse(lineTokens.Groups[3].Value, out var size) ? size : 0,
+          FileChar = lineTokens.Groups["FileType"].Value.FirstOrDefault(),
+          FilePermissions = lineTokens.Groups["FilePermission"].Value,
+          FileSize = int.TryParse(lineTokens.Groups["FileSize"].Value, out var size) ? size : 0,
           Date = _lastDateTime = 
-            (DateTime.TryParse(lineTokens.Groups[4].Value, out var date) ? date : DateTime.Today)
-            .Add(TimeSpan.TryParse("20:20", out var time) ? time : TimeSpan.MinValue),
-          FileName = lineTokens.Groups[6].Value
+            (DateTime.TryParse(lineTokens.Groups["Date"].Value, out var date) ? date : _lastDateTime)
+            .Add(TimeSpan.TryParse(lineTokens.Groups["Time"].Value, out var time) ? time : TimeSpan.Zero),
+          FileName = lineTokens.Groups["FileName"].Value
         };
         result.Add(ftpResponse);
       }
