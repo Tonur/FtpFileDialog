@@ -11,12 +11,24 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/FtpFileDialog.csproj'
+  solution: '**/FtpFileDialog.sln'
+  projects: '**/FtpFileDialog.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
 - task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '$(solution)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: restore
+    projects: '$(projects)'
 
 - task: VSBuild@1
   inputs:
@@ -29,32 +41,20 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: NuGetCommand@2
-  displayName: 'NuGet restore'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack'
   inputs:
-    restoreSolution: '$(solution)'
-    
-- task: NuGetCommand@2
-  displayName: 'NuGet pack'
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/FtpFileDialog.csproj'
-    versioningScheme: 'off'
+    command: pack
+    packagesToPack: '$(projects)'
+    versioningScheme: byPrereleaseNumber
 
 - task: NuGetAuthenticate@0
   displayName: 'NuGet Authenticate'
 
-- task: NuGetCommand@2
-  displayName: 'NuGet push'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet push'
   inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '9e1e046c-2955-4416-8d97-7356e51a4360/4e59c46e-9b99-428e-885a-80aad408b64d'
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    command: push
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;!$(Build.ArtifactStagingDirectory)/*.symbols.nupkg'
     nuGetFeedType: 'external'
-    publishFeedCredentials: 'NuGet org push'
+    publishVstsFeed: '9e1e046c-2955-4416-8d97-7356e51a4360/4e59c46e-9b99-428e-885a-80aad408b64d'
