@@ -5,6 +5,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>FtpFileDialog</RootNamespace>
     <AssemblyName>FtpFileDialog</AssemblyName>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
