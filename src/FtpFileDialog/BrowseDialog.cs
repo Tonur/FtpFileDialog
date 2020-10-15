@@ -6,12 +6,10 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
-using static System.String;
-using System.Text.RegularExpressions;
-using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Threading;
+using static System.String;
 
 namespace FtpFileDialog
 {

@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <OutputType>Library</OutputType>
-    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <OutputType>Library</OutputType>
     <RootNamespace>FtpFileDialog</RootNamespace>
     <AssemblyName>FtpFileDialog</AssemblyName>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup>
     <!--NuGet metadata-->
@@ -32,9 +33,6 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Update="BrowseDialog.cs" />
     <Compile Update="BrowseDialog.Designer.cs">
@@ -80,5 +78,8 @@
     <Content Include="Resources\FolderOpened_16x.png" />
     <Content Include="Resources\ParentFolder_16x.png" />
     <Content Include="Resources\OpenFolder_16x.png" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 </Project>
