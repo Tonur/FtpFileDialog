@@ -42,12 +42,13 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet pack'
   inputs:
-    command: pack
+    command: 'pack'
     packagesToPack: '$(projects)'
-    versioningScheme: byPrereleaseNumber
-
+    versioningScheme: 'byPrereleaseNumber'
+    majorVersion: '1'
+    minorVersion: '0'
+    patchVersion: '0'
 - task: NuGetAuthenticate@0
   displayName: 'NuGet Authenticate'
 
