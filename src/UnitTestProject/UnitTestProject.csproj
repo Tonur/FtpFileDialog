@@ -54,7 +54,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\FtpFileDialog\FtpFileDialog.csproj">
+    <ProjectReference Include="..\FtpFileDialog\FtpFileDialog.csproj">
       <Project>{c6122999-cb33-464b-9d10-86ffab7b09f9}</Project>
       <Name>FtpFileDialog</Name>
     </ProjectReference>

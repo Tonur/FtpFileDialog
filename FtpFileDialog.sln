@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FtpFileDialog", "src\FtpFileDialog\FtpFileDialog.csproj", "{C6122999-CB33-464B-9D10-86FFAB7B09F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FtpFileDialog", "src\FtpFileDialog\FtpFileDialog.csproj", "{C6122999-CB33-464B-9D10-86FFAB7B09F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp1", "src\WindowsFormsApp1\WindowsFormsApp1.csproj", "{CF50E47D-7939-4370-85FB-7FC1F386696D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{A445AB0C-4F15-4C45-8CDC-25333C4C9A12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "src\UnitTestProject\UnitTestProject.csproj", "{A445AB0C-4F15-4C45-8CDC-25333C4C9A12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{CB5491AA-C71F-44C4-8CD6-D8636D9F8543}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +32,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF50E47D-7939-4370-85FB-7FC1F386696D} = {CB5491AA-C71F-44C4-8CD6-D8636D9F8543}
+		{A445AB0C-4F15-4C45-8CDC-25333C4C9A12} = {CB5491AA-C71F-44C4-8CD6-D8636D9F8543}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E6C29F3-478C-4936-AC39-13A52A63465B}

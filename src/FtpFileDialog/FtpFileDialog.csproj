@@ -1,81 +1,54 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C6122999-CB33-464B-9D10-86FFAB7B09F9}</ProjectGuid>
+    <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RootNamespace>FtpFileDialog</RootNamespace>
     <AssemblyName>FtpFileDialog</AssemblyName>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <NuspecFile>FtpFileDialog.nuspec</NuspecFile>
-    <NuspecProperties>
-    </NuspecProperties>
-    <NuspecBasePath>
-    </NuspecBasePath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup>
+    <!--NuGet metadata-->
+    <FileVersion>1.0.0</FileVersion>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix>CI</VersionSuffix>
+    <Authors>Christoffer Kragh Pedersen</Authors>
+    <Company>CKP</Company>
+    <Product>$(MSBuildProjectName)</Product>
+    <Description>An alternative to WinForms OpenFileDialog, that enables a user to browse an FTP URI to choose a file.</Description>
+    <Copyright>Copyright © CKP</Copyright>
+    <NeutralLanguage>da-DK</NeutralLanguage>
+    <Title>$(MSBuildProjectName)</Title>
+    <PackageId>$(MSBuildProjectName)</PackageId>
+    <PackageTags>FTP;File;Explorer</PackageTags>
+    <!-- <PackageIcon>packageIcon.png</PackageIcon> -->
+    <!-- <PackageIconFullPath>$(MSBuildThisFileDirectory)packageIcon.png</PackageIconFullPath> -->
+    <PackageProjectUrl>https://www.nuget.org/packages/FtpFileDialog/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Tonur/FtpFileDialog</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>master</RepositoryBranch>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionDetails.cs" />
-    <Compile Include="BrowseDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrowseDialog.Designer.cs">
+    <Compile Update="BrowseDialog.cs" />
+    <Compile Update="BrowseDialog.Designer.cs">
       <DependentUpon>BrowseDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LoginDialog.Designer.cs">
+    <Compile Update="LoginDialog.cs" />
+    <Compile Update="LoginDialog.Designer.cs">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProgressDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProgressDialog.Designer.cs">
+    <Compile Update="ProgressDialog.cs" />
+    <Compile Update="ProgressDialog.Designer.cs">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="FtpResponse.cs" />
-    <Compile Include="FtpTreeNode.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -83,20 +56,19 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BrowseDialog.resx">
+    <EmbeddedResource Update="BrowseDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>BrowseDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginDialog.resx">
+    <EmbeddedResource Update="LoginDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProgressDialog.resx">
+    <EmbeddedResource Update="ProgressDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.da-DK.resx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -109,15 +81,4 @@
     <Content Include="Resources\ParentFolder_16x.png" />
     <Content Include="Resources\OpenFolder_16x.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="FtpFileDialog.nuspec" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
